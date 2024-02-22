@@ -4,10 +4,15 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.atiurin.sampleapp.Steps.UIElementSteps.assertIsLoaded
+import com.atiurin.sampleapp.Steps.UIElementSteps.assertIsRecyclerViewScrollTo
+import com.atiurin.sampleapp.Steps.UIElementSteps.assertIsRecyclerViewScrollTo1
 import com.atiurin.sampleapp.Steps.UIElementSteps.assertText
+import com.atiurin.sampleapp.Steps.UIElementSteps.assertText1
 import com.atiurin.sampleapp.Steps.UIElementSteps.checkCheckboxState
+import com.atiurin.sampleapp.Steps.UIElementSteps.checkIfAllRadioButtonsIsSelected
+import com.atiurin.sampleapp.Steps.UIElementSteps.clRecurringOrderWithIndex
+import com.atiurin.sampleapp.Steps.UIElementSteps.clickAllRadioButtons
 import com.atiurin.sampleapp.Steps.UIElementSteps.clickOnItem
-import com.atiurin.sampleapp.Steps.UIElementSteps.dropDownOption
 import com.atiurin.sampleapp.Steps.UIElementSteps.sendText
 import com.atiurin.sampleapp.activity.MainActivity
 import com.atiurin.sampleapp.helper.isTextOnScreen
@@ -16,13 +21,14 @@ import com.atiurin.sampleapp.helper.typeText
 import com.atiurin.sampleapp.pages.UIElementPage
 import com.atiurin.sampleapp.tests.BaseTest
 import com.atiurin.ultron.extensions.tap
+import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 @LargeTest
-class ChattingTests: BaseTest() {
+class ChattingTests : BaseTest() {
 
     @get:Rule
     val activityTestRule = ActivityScenarioRule(MainActivity::class.java)
@@ -44,11 +50,11 @@ class ChattingTests: BaseTest() {
     fun chatWithFriend() {
         with(UIElementPage) {
             dashboard.assertIsLoaded()
-            chatItem.clickOnItem()
             contact.clickOnItem()
-            contactDisplay.assertText("Joey Tribbiani")
-            textField.sendText("Hii Joe")
-            enteredText.assertText("Hii Joe")
+            contact.assertText("Phoebe Buffay")
+            textField.sendText("Hii Phoebe")
+            sendText.clickOnItem()
+            Assert.assertEquals(clRecurringOrderWithIndex(5).text, "Hii Phoebe")
         }
     }
 
@@ -57,14 +63,10 @@ class ChattingTests: BaseTest() {
         with(UIElementPage) {
             dashboard.assertIsLoaded()
             mainMenu.clickOnItem()
-            burgerMenu.clickOnItem()
-            options.dropDownOption(1)
-            customClickOption.clickOnItem()
+            customClick.clickOnItem()
             customClickPage.assertIsLoaded()
-            selectAllCornerCircles.clickOnItem()
-            cornerCirclesCheckboxes.checkCheckboxState()
-
-
+            clickAllRadioButtons()
+            checkIfAllRadioButtonsIsSelected()
         }
     }
 }

@@ -3,6 +3,7 @@ package com.atiurin.sampleapp.helper
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.contrib.RecyclerViewActions
@@ -125,15 +126,9 @@ fun Matcher<View>.getRecyclerViewCount(): Int? {
 /**
  * View is completelydisplayed? return Boolean
  */
-fun Matcher<View>.isViewCompletelyDisplayed(): Boolean {
-
-    return try {
+fun Matcher<View>.isViewCompletelyDisplayed() {
         waitForViewVisible(2)
         onView(this).check(ViewAssertions.matches(ViewMatchers.isCompletelyDisplayed()))
-        true
-    } catch (_: Exception) {
-        false
-    }
 }
 
 /**
